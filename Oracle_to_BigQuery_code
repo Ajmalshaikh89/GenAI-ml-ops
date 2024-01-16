@@ -1,0 +1,47 @@
+from google.cloud import bigquery
+
+# Set up BigQuery client with your Project ID and location
+project_id = "genai-mlops"  # Replace with your actual Google Cloud Project ID
+location = "us-central1"  # Replace with your preferred location, e.g., "US" or "EU"
+client = bigquery.Client(project=project_id, location=location)
+
+# Define your corrected SQL query with the actual condition
+bigquery_sql_query = """
+    SELECT age, city, name
+    FROM `genaimlops.my_table`
+"""
+
+# Execute the BigQuery SQL query
+bigquery_query_job = client.query(bigquery_sql_query)
+
+# Fetch the results from BigQuery
+bigquery_results = bigquery_query_job.result()
+
+# Iterate over the results from BigQuery
+for bigquery_row in bigquery_results:
+    print(f"BigQuery - value: {bigquery_row['age']}, city: {bigquery_row['name']}")
+
+# Oracle function to generate Oracle SQL query
+def generate_oracle_query():
+    # Define your Oracle SQL query based on the given BigQuery SQL query
+    oracle_query = """
+        SELECT age, city, name
+        FROM your_oracle_table
+        WHERE your_condition;
+    """
+    
+    return oracle_query
+
+# Get the Oracle SQL query
+oracle_sql_query = generate_oracle_query()
+
+# Execute the Oracle SQL query using your Oracle connection
+# (Assuming you have already set up the connection and cursor)
+# cursor.execute(oracle_sql_query)
+
+# Fetch the results from Oracle (commented out as it depends on your Oracle setup)
+# oracle_results = cursor.fetchall()
+
+# Iterate over the results from Oracle (commented out as it depends on your Oracle setup)
+# for oracle_row in oracle_results:
+#     print(f"Oracle - value: {oracle_row['age']}, city: {oracle_row['name']}")
