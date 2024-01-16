@@ -1,0 +1,47 @@
+from google.cloud import bigquery
+import cx_Oracle
+
+# Set up BigQuery client
+client = bigquery.Client()
+
+# Set up Oracle connection
+oracle_username = "your_oracle_username"
+oracle_password = "your_oracle_password"
+oracle_dsn = "your_oracle_dsn"
+
+oracle_connection = cx_Oracle.connect(oracle_username, oracle_password, oracle_dsn)
+oracle_cursor = oracle_connection.cursor()
+
+# Define your Oracle function
+def oracle_function(input_param):
+    # Your Oracle function logic here
+    # ...
+
+# Define your SQL query for BigQuery
+sql_query = """
+    SELECT column1, column2
+    FROM genaimlops.my_table.example_data.json
+    WHERE status = 'completed';
+"""
+
+# Execute Oracle function to get input for BigQuery
+oracle_input = oracle_function("your_input_value")
+
+# Modify the BigQuery SQL query based on Oracle output
+modified_sql_query = f"""
+    SELECT column1, column2
+    FROM genaimlops.my_table.example_data.json
+    WHERE status = 'completed' AND some_column = '{oracle_input}';
+"""
+
+# Execute the modified BigQuery query
+query_job = client.query(modified_sql_query)
+results = query_job.result()
+
+# Iterate over the results
+for row in results:
+    print(f"Column1: {row['column1']}, Column2: {row['column2']}")
+
+# Close Oracle cursor and connection
+oracle_cursor.close()
+oracle_connection.close()
