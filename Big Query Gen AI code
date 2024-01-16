@@ -1,0 +1,23 @@
+from google.cloud import bigquery
+
+# Set up BigQuery client with your Project ID and location
+project_id = "genai-mlops"  # Replace with your actual Google Cloud Project ID
+location = "us-central1"  # Replace with your preferred location, e.g., "US" or "EU"
+client = bigquery.Client(project=project_id, location=location)
+
+# Define your corrected SQL query with the actual condition
+sql_query = """
+    SELECT age, city, name
+    FROM `genaimlops.my_table`
+    
+"""
+
+# Execute the query
+query_job = client.query(sql_query)
+
+# Fetch the results
+results = query_job.result()
+
+# Iterate over the results
+for row in results:
+    print(f"value: {row['age']}, city: {row['name']}")
